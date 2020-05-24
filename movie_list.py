@@ -1,38 +1,53 @@
 #!/usr/bin/env python3
 
-def display_menu():                                             #Function to display the menu list
+def display_menu():                                                         #Prints the display menu
     print("COMMAND MENU")
     print("list - List all movies")
     print("add  - Add a movie")
     print("del  - Delete a movie")
     print("exit - Exit program")
 
-def list_movies(movie_list):                                    #Function to list current movies in the list
-    i = 1
-    for movie in movie_list:
-        print(str(i) + "." + movie )
-        i += 1     
+def list_movies(movie_list):                                                #Displays the list
+    if len(movie_list) == 0:
+        print("There are no movies in the list.\n")
+        return
+    else:
+        i = 1
+        for row in movie_list:
+            print(str(i) + ". " + row[0] + " (" + str(row[1]) + ")")
+            i += 1
+        print
+        
 
-def add_movie(movie_list):                                      #Function to add movie to list
-    movie_list.append(input("Name: "))
-    print(movie_list[-1] + " was added.")
+def add_movie(movie_list):                                                  #Adds movie to the list
+    #initialize local variables/lists
 
-def del_movie(movie_list):                                      #Function to delete movie from list
+    movie = []
+    movie.append(input("Name: "))
+    movie.append(input("Year: "))
+    movie_list.append(movie)
+    print(movie[0] + " (" + movie[1] + ") was added.")
+    
+
+def del_movie(movie_list):                                                  #Deletes movie from the list
     num = int(input("Number: "))
-    if num < 1 or num  > len(movie_list):
+    if num < 1 or num  > len(movie_list):                                   #Prints if number is invalid
         print("Invalid movie number.\n")
     else:
-        rem = movie_list.pop(num-1)
-        print(str(rem) + "was deleted.")
+        movie = movie_list.pop(num-1)
+        print(movie[0] + " (" + str(movie[1]) + ") was deleted.")
         print()
 
-def main():
+def main():                                                                 #Main function of the program
 
+    #Initialize variables and lists
     done = False
-    movie_list = ["Monty Python and the Holy Grail", 
-                  "On the Waterfront", 
-                  "Cat on a Hot Tin Roof"]
-    display_menu()                                              #Calls menu function
+    movie_list = [["Monty Python and the Holy Grail", "1975"], 
+                  ["On the Waterfront", "1954"], 
+                  ["Cat on a Hot Tin Roof", "1939"]]
+
+    display_menu()
+
     while not done:
         command = str(input("Command: "))
         if command.lower() == "list":
@@ -41,10 +56,8 @@ def main():
             add_movie(movie_list)
         elif command.lower() == "del":
             del_movie(movie_list)
-        elif command.lower() == "exit":
-            break
         else:
-            print("Not a valid command.  Please try again.\n")
+            break
 
-if __name__ == "__main__":
+if __name__ == "__main__":                                                  #Beginning of the program
     main()
