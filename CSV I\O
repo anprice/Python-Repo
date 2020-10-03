@@ -1,0 +1,69 @@
+#!usr/bin/bash
+
+import csv                                                      #Imports Comma Separated Value module
+
+movie_file = "C:/Users/drewc/OneDrive/Desktop/test.csv"         #setting constant global variable
+
+def write_movies(movies):                                       #Function to write to the file with updates of add/delete
+    with open(movie_file, "w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerows(movies)
+
+def read_movies():                                              #Function to read from the file
+    movies = []                                                 #Sets an empty list to store the contents of movie_file to be passed as a parameter throughout the program
+    with open(movie_file, newline="") as file:
+        reader = csv.reader(file)
+        for row in reader:
+            movies.append(row)
+
+    return movies
+
+def list_movies(movies):                                        #Function to list the contents of the list
+    for i in range(len(movies)):                                #Setting for loop to iterate for the length of movies
+        movie = movies[i]
+        print(str(i+1) + ". " + movie)                          #Have to +1 to i because a list index starts at 0, but we want to display our list starting at 1
+    print()
+
+def add_movies(movies):                                         #Function to add a movie to the list
+    movie = input("Movie: ")
+    year = input("Year: ")
+    movies.append(movie + ", " + year)
+    write_movies(movies)                                        #Pass list with the new movie to rewrite the file
+    print(movie + " was added.\n")
+
+
+def del_movies(movies):                                         #Function to delete a move from the list
+    index = int(input("Number: "))                              #Storing user input for movie they want to delete
+    movie = movies.pop(index - 1)                               #Popping the specified index -1 since a list index starts with 0.  0 = 1, 1 = 2, 2 = 3, 
+    write_movies(movies)                                        #Pass list with the new movie to rewrite the file
+    print(movie + " was deleted.\n")
+
+def main_menu():                                                #Function to display main menu
+
+    print(("COMMAND MENU\n"
+          "list - List all movies\n"
+          "add  - Add a movie\n"
+          "del  - Delete a movie\n"
+          "exit - Exit program\n"))
+    
+def main():
+    
+    main_menu()                                                 #Call main_menu function to display
+    movies = read_movies()                                      #Storing returned movies list from read_movies in a local variable for use
+    while True:                                                 #Begin while loop until a break is observed (only in exit)
+        choice = input("Choice: ")
+        if choice == "list":
+            list_movies(movies)                                 #Pass movies to list_movies function to process
+        elif choice == "add":
+            add_movies(movies)                                  #Pass movies to add_movies function to process
+        elif choice == "del":
+            del_movies(movies)                                  #Pass movies to del_movies function to process
+        elif choice == "exit":
+            print("bye")
+            break                                               #Break from loop and end program
+        else:
+            print("Not a valid command.  Please try again.")    #Continue loop
+
+
+if __name__ == "__main__":
+    main()                                                      #Launch main function
