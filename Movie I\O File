@@ -1,0 +1,66 @@
+#!usr/bin/bash
+
+movie_file = "C:/Users/drewc/OneDrive/Desktop/test.txt"
+
+def write_movies(movies):
+    with open(movie_file, "w") as file:
+        for movie in movies:
+            file.write(movie + "\n")
+
+def read_movies():
+    movies = []
+    with open(movie_file) as file:
+        for line in file:
+            line = line.replace("\n", "")
+            movies.append(line)
+        return movies
+
+def list_movies(movies):
+    for i in range(len(movies)):
+        movie = movies[i]
+        print(str(i+1) + ". " + movie)
+    print()
+
+def add_movies(movies):
+    movie = input("Movie: ")
+    movies.append(movie)
+    write_movies(movies)
+    print(movie + " was added.\n")
+
+def del_movies(movies):
+    index = int(input("Number: "))
+    movie = movies.pop(index - 1)
+    write_movies(movies)
+    print(movie + " was deleted.\n")
+
+def main_menu():
+
+    print(("COMMAND MENU\n"
+          "list - List all movies\n"
+          "add  - Add a movie\n"
+          "del  - Delete a movie\n"
+          "exit - Exit program\n"))
+    
+def main():
+    
+    main_menu()
+    movies = read_movies()
+    while True:
+        choice = input("Choice: ")
+        if choice == "list":
+            list_movies(movies)
+        elif choice == "add":
+            add_movies(movies)
+        elif choice == "del":
+            del_movies(movies)
+        elif choice == "exit":
+            print("bye")
+            break
+        else:
+            print("Not a valid command.  Please try again.")
+
+
+if __name__ == "__main__":
+    main()
+
+
