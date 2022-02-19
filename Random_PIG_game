@@ -1,0 +1,78 @@
+#! usr/bin/env python3
+
+import random
+
+#Defining Global variables
+
+turn = 1
+total_score = 0
+score_this_turn = 0
+turn_over = False
+game_over = False
+
+def take_turn():
+    global turn_over                                                                            #Gives the function access to modify the global variable turn_over
+
+    print ("TURN", turn)
+    turn_over = False
+    while not turn_over:                                                                        #Checks if boolean value is set to True or False
+        choice = input("Roll or hold? (r/h): ")
+        if choice == "r":
+            roll_die()                                                                          #Calls roll_die function
+        elif choice == "h":
+            hold_turn()                                                                         #Calls hold_turn function
+        else:
+            print("Invalid choice.  Try again.")  
+
+def roll_die():
+    
+    global turn, score_this_turn, turn_over                                                     #Gives the function access to modify the called global variables
+
+    die = random.randint(1, 6)
+    print("Die:", die)
+    if die == 1:
+        score_this_turn = 0                                                                     #Resets score for current turn to 0 because you rolled a 1
+        turn += 1                                                                               #Adds to turn counter
+        print("Turn over.  No score.\n")
+        turn_over = True                                                                        #Sets boolean to True
+    else:
+        score_this_turn += die                                                                  #Take value of die and add it to current value if 1 is not rolled
+
+def hold_turn():
+
+    global turn, score_this_turn, total_score, turn_over, game_over                             #Gives the function access to modify the called global variables
+
+    print("Score for turn:", score_this_turn)
+    total_score += score_this_turn                                                              #Take value of score_this_turn and add it to total score
+    score_this_turn = 0                                                                         #resets score to 0 for new turn
+    print("Total score:", total_score, "\n")
+
+    turn_over = True
+    if total_score >= 20:
+        game_over = True
+        print("You finished in", turn, "turns!")
+    turn += 1
+
+def main():
+
+    display_rules()
+    play_game()
+
+def display_rules():
+
+    print("Let's play PIG!")
+    print()
+    print("See how many turns it takes you to get to 20.\n"
+          "Turn ends when you hold or roll a 1.\n"
+          "If you roll a 1, you lose all points for the turn.\n"
+          "If you hold, you save all points for the turn.\n")
+
+def play_game():                                                                               #This is the function that holds the main loop for the game
+
+    while not game_over:
+        take_turn()
+    print()
+    print("Game over!")
+
+if __name__ == "__main__":
+    main()
