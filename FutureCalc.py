@@ -21,7 +21,7 @@ def get_float():
         if monthly_investment > min and monthly_investment <= max:                                                          #Condition to break the loop
             break   
         else:
-            print("Entry must be greater than ", min, " and less than or equal to ", max ,".")                              #Continue loop until valid input is inserted
+            print("Entry must be greater than ", min, " and less than or equal to", max ,".")                              #Continue loop until valid input is inserted
             continue                                                                                                        #Starts loop over
     
     low = 0
@@ -31,7 +31,7 @@ def get_float():
         if yearly_interest_rate > low and yearly_interest_rate <= high:                                                     #Condition to break the loop
             break
         else:
-            print("Entry must be greater than ", low, " and less than or equal to ", high, ".")                             #Continue loop until valid input is inserted
+            print("Entry must be greater than ", low, " and less than or equal to", high, ".")                             #Continue loop until valid input is inserted
             continue                                                                                                        #Starts loop over
 
     return monthly_investment, yearly_interest_rate
@@ -44,7 +44,7 @@ def get_int():
         if years > min and years <= max:                                                                                    #Condition to break the loop
             break                                                                                               
         else:                                                                                                               #Continues loop until valid input is inserted
-            print("Entry must be greater than ", min, " and less than or equal to ", max, ".")
+            print("Entry must be greater than ", min, " and less than or equal to", max, ".")
             continue
 
     return years                                                                                                            #Returns number of years
