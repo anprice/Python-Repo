@@ -42,9 +42,9 @@ def main():                                                                 #Mai
 
     #Initialize variables and lists
     done = False
-    movie_list = [["Monty Python and the Holy Grail", "1975"], 
-                  ["On the Waterfront", "1954"], 
-                  ["Cat on a Hot Tin Roof", "1939"]]
+    movie_list = [["Monty Python and the Holy Grail", 1975], 
+                  ["On the Waterfront", 1954], 
+                  ["Cat on a Hot Tin Roof", 1939]]
 
     display_menu()
 
