@@ -15,7 +15,7 @@ def crunch_numbers(data):                                       #Whatever object
     dups = get_duplicates(data)                                 #Invoke get_duplicates function and passes the data object as a parameter, then store returned value in variable dups
 
     print("Average =", average,
-          "Median =", median_index, median,
+          "Median =", median,
           "Minimum =", minimum,
           "Maximum =", maximum,
           "Duplicates =", dups)
