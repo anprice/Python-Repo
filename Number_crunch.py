@@ -30,7 +30,7 @@ def get_duplicates(data):                                       #get_duplicates 
 
 def main():
     fixed_tuple = (0,5,10,15,20,25,30,35,40,45,50)              #Initializes a tuple object named fixed_tuple
-    random_list = [0] * len(fixed_tuple)                        #Creates a random_list variable with indexes equal to the number in fixed_tuple
+    random_list = [0] * len(fixed_tuple)                        #Creates a random_list variable with # of indexes equal to the number in fixed_tuple and are initialized to a value of 0
     for i in range(len(random_list)):                           #Starts for loop to iterate through each index in random_list
         random_list[i] = random.randint(0, 50)                  #Sets each index in random_list to a random number between 0 and 50
     random_list.sort()                                          #Sorts the list in random_list
