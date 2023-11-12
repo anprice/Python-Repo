@@ -1,0 +1,36 @@
+#!usr/bin/python3
+
+from datetime import datetime, time
+
+def main():
+    print("The Timer program")  
+    print()
+    
+    input("Press Enter to start...")
+    start_time = datetime.now()                                     #Initialize variable start_time and set it to current time
+    print("Start time:", start_time)
+    print()
+    
+    input("Press Enter to stop...")
+    stop_time = datetime.now()                                      #Initialize variable stop_time and set it to current time
+    print("Stop time: ", stop_time)
+    print()
+    
+    elapsed_time = stop_time - start_time                           #Set variable elapsed_time to delta of start/stop time
+    days = elapsed_time.days                                        #Sets days variable to days
+    minutes = elapsed_time.seconds // 60                            #Sets minutes variable to minutes
+    seconds = elapsed_time.seconds % 60                             #Sets seconds variable to seconds
+    microseconds = elapsed_time.microseconds                        #sets microseconds variable to microseconds
+    
+    hours = minutes // 60                                           #Calulate hours
+    minutes = minutes % 60                                          #Calculate minutes
+    
+    time_object = time(hours, minutes, seconds, microseconds)       #Creates time object and passes the parameters of the time values
+    
+    print("ELAPSED TIME")
+    if days > 0:                                                    #If statement for if days are greater than 1
+        print("Days:", days)                                    
+    print("Time:", time_object)                                     #Prints the time_object object to the screen
+        
+if __name__ == "__main__":
+    main()
