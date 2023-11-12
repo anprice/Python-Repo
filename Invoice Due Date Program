@@ -1,0 +1,39 @@
+#!usr/bin/python3
+
+from datetime import datetime, timedelta
+
+def get_invoice_date():
+    invoice_date_str = input("Enter the invoice data (MM/DD/YY): ")                     #Creates variable and stores value as a string
+    invoice_date = datetime.strptime(invoice_date_str, "%m/%d/%y")                      #Creates variable and parse string into date/time object
+    return invoice_date
+
+def main():
+    print("The Invoice Due Date program")
+    print()
+    
+    while True:                                                                         #Begins loop for inputting data while true
+        invoice_date = get_invoice_date()                                               
+        print()
+        
+        due_date = invoice_date + timedelta(days=30)                                    #Sets due_date variable to invoice_date + 30 days
+        current_date = datetime.now()                                                   #Sets current date to current time with now() function
+        days_overdue = (current_date - due_date).days                                   #Sets days_overdue 
+        
+        print("Invoice Date: " + invoice_date.strftime("%B %d, %Y"))                    
+        print("Due date:     " + due_date.strftime("%B %d, %Y"))
+        print("Current Date: " + current_date.strftime("%B %d, %Y"))
+        if days_overdue > 0:                                                            #Begin loop for due date
+            print("This invoice is", days_overdue, "day(s) overdue.")
+        else:                                                                           #execute else loop 
+            days_due = days_overdue * -1                                                #Calculate number between due date and current date
+            print("This invoice is due in", days_due, "day(s).")
+        print()
+        
+        result = input("Continue? (y/n): ")
+        print()
+        if result.lower() != "y":
+            print("Bye!")
+            break
+        
+if __name__ == "__main__":
+    main()
