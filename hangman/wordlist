@@ -1,0 +1,17 @@
+#This module is to generate random words
+
+import random
+
+words = [
+    
+    "answer",
+    "boxes",
+    "canary",
+    "folding",
+    "echo",
+    "kilo",
+    "monster",
+    "necro",
+    "xulu"
+    
+    ]
