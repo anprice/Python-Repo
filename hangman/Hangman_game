@@ -1,6 +1,5 @@
 #!usr/bin/python3
 
-from concurrent.futures.process import _chain_from_iterable_of_lists
 import wordlist
 
 def get_word(word):                                                             #get radom word from wordlist
