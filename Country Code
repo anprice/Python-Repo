@@ -1,0 +1,69 @@
+#!usr/bin/python3
+
+def display_menu():
+    print("COMMAND MENU")
+    print("view - View country name")
+    print("add - Add a country name")
+    print("del - Delete a country")
+    print("exit - Exit program")
+    print()
+    
+def display_codes(countries):                                                          
+    codes = list(countries.keys())                                                  #Stores the keys in the country dictionary in a list called codes
+    codes.sort()                                                                    #Sorts the countries
+    line = "Country codes: "                                                        #Stores the string "Country codes:" in the line variable
+    for code in codes:                                                              #For loop to parse through the list
+        line += code + " "                                                          #Iterates through the code list and displays they country code and adds a space in between
+    print(line)
+    
+def view(countries):
+    display_codes(countries)                                                        #Calls the display_code function and passes countries dictionary as a parameter
+    code = input("Enter country code: ").upper()                                    #Gets input from the user and stores it in code in caps
+    if code in countries:                                                           #If statement to compare if user input is a key in the dictionary
+        name = countries[code]                                                      #Stores the value that matches to the key that was users input
+        print("Country name: " + name + ".\n")
+    else:
+        print("There is no country with that code.\n")
+        
+def add(countries):
+    code = input("Enter country code: ").upper()                                    #Gets input from the user and stores it in code in caps
+    if code in countries:                                                           #If statement to compare if user input is already a key in the dictionary
+        name = countries[code]                                                      #Stores the value that matches to the key that was users input
+        print(name + " is already using this code.\n")
+    else:
+        name = input("Enter country name:")                                         #Store user input for country name in the name variable                                           
+        name = name.title()                                                         #Capitalizes the first letter in each word entered after a space i.e. United Kingdom
+        countries[code] = name                                                      #Sets the value to the key entered in by the user
+        print(name + " was added.\n")
+        
+def delete(countries):
+    code = input("Enter country code: ").upper()                                    #Store user input for country name in the name variable 
+    if code in countries:                                                           #If statement to compare if user input is in the dictionary                                   
+        name = countries.pop(code)                                                  #Stores the value of the key the user entered to be deleted in the name variable.  Pops the entry from the dictionary
+        print(name + " was deleted.\n")
+    else:
+        print("there is no country with that code.\n")
+
+def main():
+    countries = {"CA": "Canada",
+                 "US": "United States",
+                 "MX": "Mexico"}
+    
+    display_menu()
+    while True:                                                                     #Begin loop to get input from user until they are done by entering exit
+        command = input("Command: ")
+        command = command.lower()
+        if command == "view":
+            view(countries)                                                         #Call the view function and pass the dictionary as a parameter
+        elif command == "add":
+            add(countries)                                                          #Call the add function and pass the dictionary as a parameter
+        elif command == "del":
+            delete(countries)                                                       #Call the delete function and pass the dictionary as a parameter
+        elif command == "exit":
+            print("Bye!")
+            break
+        else:
+            print("Not a valid command. Please try again.\n")
+        
+if __name__ == "__main__":
+    main()
