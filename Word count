@@ -1,0 +1,43 @@
+#!usr/bin/python3
+
+def get_words_from_file(filename):
+    with open(filename) as file:
+       text = file.read()
+       
+    text = text.replace("\n", "")                                               #Replace new lines with spaces
+    text = text.replace(",", "")                                                #Replace , with empty strings
+    text = text.replace(".", "")                                                #Replace . with empty strings
+    text = text.lower()
+    
+    words = text.split(" ")                                                     #Split text string into a list of words
+    print(words)
+    return words
+
+def count_words(words):
+    word_count = {}                                                             #Initialize word_count dictionary
+    for word in words:                                                          #For loop to iterate through each word in words
+        if word in word_count:                                                  #If word is already in the list, add 1 to the value
+            word_count[word] += 1
+        else:                                                                   #Else create a key of the word, and set it to 1
+            word_count[word] = 1                                                
+    return word_count
+
+def display_word_count(word_count):
+    words = list(word_count.keys())                                             #Returns all of the keys in word_count and stores them in a list
+    words.sort(key=str.lower)                                                   #Sorts the keys alphabetically and in lower case
+    for word in words:                                                          #For loop to iterate through the words and disply it as "word = x"
+        count = word_count[word]
+        print(word, "=", count)
+        
+def main():
+    print("The Word Counter program")
+    print()
+    
+    filename = "gettysburg_address.txt"
+    
+    words = get_words_from_file(filename)                                       #Call function to get words from the file
+    word_count = count_words(words)                                             #Call function to count words and store them in word_count
+    display_word_count(word_count)                                              #Call function to display the word count
+        
+if __name__ == "__main__":
+    main()
