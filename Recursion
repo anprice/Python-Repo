@@ -1,0 +1,24 @@
+#!usr/bin/python3
+
+
+def move_disks(n, src, dst, tmp):
+    if n==0:                                                                #If the number equals 0, return
+        return
+    else:
+        move_disks(n-1, src, tmp, dst)                                      #Call the move_disks function 
+        print("Move disk", n, "from", src, "to", dst)
+        move_disks(n-1, tmp, dst, src)                                      #Call the move_disks function 
+
+def main():
+    print("***** TOWERS OF HANOI *****")
+    print()
+    num_disks = int(input("Enter number od disks: "))                       #Get user input for how many disks there are
+    print()
+    
+    move_disks(num_disks, "A", "C", "B")                                    #Call the move_disk function and pass parameters
+    
+    print()
+    print("All disks have been moved.")
+        
+if __name__ == "__main__":
+    main()
