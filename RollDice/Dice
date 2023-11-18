@@ -1,0 +1,19 @@
+import random
+
+class Die:                                                 #Class definition for Die
+    def __init__(self):                                    #Constructor for a die object
+        self.value = 1                                     #Initialization value for die 
+            
+    def roll(self):                                        #Function for rolling the die
+        self.value = random.randrange(1, 7)                #Sets the value to a random number between 1 and 6 (not including 7)
+            
+class Dice:                                                #Class definition for Dice
+    def __init__(self):                                    #Constructor for a Dice object
+        self.list = []                                     #Defines and empty list 
+    
+    def addDie(self, die):                                 #Function for adding a die to the roll
+        self.list.append(die)                              #Appends a new die to the list 
+        
+    def rollAll(self):                                     #Function for rolling all the die
+        for die in self.list:                              #Iterates through all the die in the list
+            die.roll()                                     #Calls the roll function in class die
