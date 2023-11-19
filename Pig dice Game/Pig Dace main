@@ -1,0 +1,66 @@
+#!usr/bin/python3
+
+from game import Game
+
+def display_welcome():                                                      #display_welcome function
+    print("Let's Play PIG!")
+    print()
+    print("* See how many turns it takes you to get to 20.")
+    print("* Turn ends when you hold or roll a 1.")
+    print("* If you roll a 1, you lose all points for the turn.")
+    print("* If you hold, you save all points for the turn.")
+    print()
+        
+def play_game():                                                            #Play game function
+    game = Game()                                                           #Create a new game object from game class that was imported
+    while not game.isGameOver:                                              #Continuous loop until game is over
+        take_turn(game)                                                     #call take_turn function and pass the game object
+        
+def take_turn(game):                                                        #take_turn function with object as parameter
+    print("TURN", game.turn)                                                #Print turn from game function
+    game.scoreThisTurn = 0                                                  #Initialize scoreThisTurn function
+    game.isTurnOver = False                                                 #setting isTurnOver to False
+    while not game.isTurnOver:                                              #loop while turn is not over
+        choice = input("Roll or hold? (r/h)")                               #Get input from user to roll or hold
+        if choice == "r":                                                   #If choice is r, call the roll_die function passing the game object
+            roll_die(game)                                                  
+        elif choice == "h":                                                 #If choice is h, call the hold_turn function passing the game object
+            hold_turn(game)
+        else:                                                               #All other input is invalid
+            print("Invalid choice.  Try again.")
+            
+def roll_die(game):                                                         #Roll die function with game object as a parameter
+    game.die.roll()                                                         #game object -> die object -> roll function
+    print("Die:", game.die.value)                                           #game object -> die object -> value 
+    if game.die.value == 1:                                                 #if game object -> die object -> value is 1.  Do Loop
+        game.scoreThisTurn = 0                                              #Set scoreThisTurn to 0
+        game.turn += 1                                                      #Increment turn by 1
+        game.isTurnOver = True                                              #Set isTurnOver to true
+        print("Turn over.  No score.\n")
+    else:
+        game.scoreThisTurn += game.die.value                                #Else, increment scoreThisTurn += game obj -> die obj -> value
+        
+def hold_turn(game):
+    game.score += game.scoreThisTurn                                        #increment game.score by game.scoreThisTurn
+    game.isTurnOver = True                                                  #Set isTurnOver to true
+    print("Score for turn:", game.scoreThisTurn)                            #Print game.scoreThisTurn
+    print("Total score:", game.score, "\n")                                 #Print game.score
+    if game.score >= 20:                                                    #If game.score is greater than or equal to 20
+        game.isGameOver = True                                              #Set game.isGameOver to true
+        print("You finished in", game.turn, "turns!")
+    else:                                                                   #else increment game by 1
+        game.turn += 1
+            
+def main():
+    display_welcome()                                                       #Call the display_welcome function
+    while True:                                                             #Loop while true
+        play_game()                                                         #Play game function
+        choice = input("Play again? (y/n): ")                               #Get choice from user
+        print()
+        if choice != "y":                                                   #If yes, break loop and end game
+            print("Bye!")
+            break
+        
+if __name__ == "__main__":
+    main()
+
