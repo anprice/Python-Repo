@@ -1,0 +1,30 @@
+#!usr/bin/python3
+
+from dice import Dice, Die                                                    #Import from dice the class Dice and Die
+
+def main():                                          
+    print("The Dice Roller program")
+    print()
+    
+    count = int(input("Enter the number of dice to roll: "))                  #Get user input for how many dice they would like to roll      
+    
+    dice = Dice()                                                             #Create a new Dice object to store how many die the user wants to roll
+    for i in range(count):                                                    #Iterate through count
+        die = Die()                                                           #Creates a new die object for each iteration and is initialized to 1 (lowest to roll on a die)
+        dice.addDie(die)                                                      #Calls the addDie function in the dice class.  Passes die as an argument.  
+        
+    while True:                                                               #Game loop
+        
+        dice.rollAll()                                                        #Calls rollAll dice function
+        print("YOUR ROLL: ", end="")                                          #Print statement that ends with no space 'end=""'
+        for die in dice.list:                                                 #For statement to iterate through the number of rolls 
+            print(die.value, end=" ")                                         #Prints the value of die and ends the line with a space 'end=" "'
+        print("\n")
+        
+        choice = input("Roll again? (y/n): ")                                 #Prompt user to roll again
+        if choice != "y":                                                     #Do below statements if answer does not = y
+            print("Bye!")
+            print()
+            
+if __name__ == "__main__":
+    main()
