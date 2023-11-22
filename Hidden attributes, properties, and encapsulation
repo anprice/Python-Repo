@@ -1,0 +1,68 @@
+#!usr/bin/python3
+
+import random
+
+#These classes could also be in separate modules that would have to imported.  
+#This is just for ease of understanding in a single file
+
+class Die:
+    def __init__(self):                                                     #Initializ value to 1 when a Die object is created
+        self.__value = 1
+        
+    @property                                                               #Getter method which is read only and returns private __value
+    def value(self):
+        return self.__value
+    
+    @value.setter                                                           #Setter method 
+    def value(self, value):                                                 #Accepts a parameter "value"
+        if value < 1 or value > 6:                                          #Begin error checking
+            raise ValueError("Die value must be from 1 to 6.")
+        else:
+            self.__value = value
+
+    def roll(self):                                                         #Roll function
+        self.__value = random.randrange(1, 7)                               #Sets __value to a random number between 1 and 6
+        
+class Dice:
+    def __init__(self):                                                     #Initialize __list to an empty list 
+        self.__list = []
+        
+    @property                                                               #Getter method that is read only and returns dice_tuple
+    def list(self):                                                         #list function to return list 
+        dice_tuple = tuple(self.__list)
+        return dice_tuple
+    
+    def addDie(self, die):                                                  #addDie function which appends a die to the list
+        self.__list.append(die)
+        
+    def rollAll(self):                                                      #rollAll function which iterates through the list and calls the roll() function of class die
+        for die in self.__list:
+            die.roll()
+            
+def main():
+   
+    print("The Dice Roller program")
+    print()
+    
+    count = int(input("Enter the number of dice to roll: "))                  #Get user input for how many dice they would like to roll      
+    
+    dice = Dice()                                                             #Create a new Dice object to store how many die the user wants to roll
+    for i in range(count):                                                    #Iterate through count
+        die = Die()                                                           #Creates a new die object for each iteration and is initialized to 1 (lowest to roll on a die)
+        dice.addDie(die)                                                      #Calls the addDie function in the dice class.  Passes die as an argument.  
+        
+    while True:                                                               #Game loop
+        
+        dice.rollAll()                                                        #Calls rollAll dice function
+        print("YOUR ROLL: ", end="")                                          #Print statement that ends with no space 'end=""'
+        for die in dice.list:                                                 #For statement to iterate through the number of rolls 
+            print(die.value, end=" ")                                         #Prints the value of die and ends the line with a space 'end=" "'
+        print("\n")
+        
+        choice = input("Roll again? (y/n): ")                                 #Prompt user to roll again
+        if choice != "y":                                                     #Do below statements if answer does not = y
+            print("Bye!")
+            break
+    
+if __name__ == "__main__":
+    main()
