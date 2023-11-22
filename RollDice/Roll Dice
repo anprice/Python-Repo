@@ -24,7 +24,7 @@ def main():
         choice = input("Roll again? (y/n): ")                                 #Prompt user to roll again
         if choice != "y":                                                     #Do below statements if answer does not = y
             print("Bye!")
-            print()
+            break
             
 if __name__ == "__main__":
     main()
