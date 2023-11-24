@@ -1,0 +1,31 @@
+class Product:                                                                         #Define the class Product
+    def __init__(self, name="", price=0.0, discountPercent=0):                         #Initialize the name, price, and discountPercent variables that are passed via the newly created object
+        self.name = name
+        self.price = price
+        self.discountPercent = discountPercent
+        
+    def getDiscountAmount(self):                                                       #Method to getDiscountAmount which returns the price * percent by 100
+        return self.price * self.discountPercent / 100
+    
+    def getDiscountPrice(self):                                                        #Method to getDiscountPrice which calls the getDiscountAmount and then subtracts the returned value from the price
+        return self.price - self.getDiscountAmount()
+    
+    def getDescription(self):                                                          #Method to return the passed name
+        return self.name
+    
+class Book(Product):                                                                   #Define the subclass Book that inherits from Product class
+    def __init__(self, name="", price=0.0, discountPercent=0, author=""):              #Initialize the name, price, discountPercent, and author that are passed via the newly created object
+        
+        Product.__init__(self, name, price, discountPercent)                           #Call the constructor of the superclass (Product)
+        self.author = author                                                           #Set the author
+      
+    def getDescription(self):                                                          #Override the getDescription method
+        return Product.getDescription(self) + " by " + self.author
+    
+class Movie(Product):                                                                  #Define the subclass Movie that inherits from Product class
+    def __init__(self, name="", price=0.0, discountPercent=0, year=0):                 #Initialize the name, price, discountPercent, and year that are passed via the newly created object
+        Product.__init__(self, name, price, discountPercent)                           #Call the constructor of the superclass (Product)
+        self.year = year                                                               #Set the year
+        
+    def getDescription(self):                                                          #Override the getDescription method and return the getDescription and append the year to it and typecast it to a string
+        return Product.getDescription(self) + " (" + str(self.year) + ")"
