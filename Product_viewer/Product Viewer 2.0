@@ -1,0 +1,45 @@
+#!usr/bin/python3
+
+from objects import Movie, Book, Product                                                        #Import classes from the objects file
+
+def show_products(products):                                                                    #Show_product function that accepts the tuple products 
+    print("PRODUCTS")
+    for i in range(len(products)):                                                              #Iterates through the tuple to display the values to the user
+        product = products[i]                                                                   #Stores the value of the index into the product variable
+        print(str(i+1) + ". " + product.getDescription())                                       #Prints to screen and then calls the getDescription of the respective class (Product, Book, Movie)
+    print()
+    
+def show_product(product):                                                                      #Show_product function and gets passed the tuple as a parameter
+    print("PRODUCT DATA")
+    print("Name:            ", product.name)                                                    #Prints the name
+    if isinstance(product, Book):                                                               #If it is of type book, print the author
+        print("Author:          ", product.author)
+    if isinstance(product, Movie):                                                              #If it is of type Movie, print the year
+        print("Year:            ", product.year)
+    print("Discount price:   {:.3f}".format(product.getDiscountPrice()))                        #Print the discount price formatting it to 2 decimal places
+    print()
+    
+def main():
+    print("The Product Viewer program")
+    print()
+    products = (Product('Stanley 13 Ounce Wood Hammer', 12.99, 62),                             #Create a tuple named products and store a Product, Book, and Movie object
+                Book("The Big Short", 15.95, 34, "Michael Lewis"),
+                Movie("The Holy Gril - DVD", 14.99, 68, 1975))
+    
+    show_products(products)                                                                     #Pass the tuple products to show_product function
+    
+    while True:                                                                                 #Enter the loop for the main program
+        number = int(input("Enter product number: "))                                           #Get the number input from the user
+        print()
+        
+        product = products[number-1]                                                            #Stores the object in the index value -1 into the product variable                                                 
+        show_product(product)                                                                   #Passes the product variable to the show_product function
+        
+        choice = input("Continue? (y/n): ")                                                     #Prompt user to continue or stop
+        print()
+        if choice != "y":
+            break
+
+    
+if __name__ == "__main__":
+    main()
