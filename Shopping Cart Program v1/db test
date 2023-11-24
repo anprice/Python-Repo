@@ -1,5 +1,3 @@
-#!usr/bin/python3
-
 #This code is for testing the database and business layers by choosing the 2nd item in the csv list
 
 import db                                                   #Importing the db file
