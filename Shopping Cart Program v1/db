@@ -1,0 +1,14 @@
+import csv                                                                      #Needed for CSV
+
+from business import Product                                                    #Only import the Product class from business
+
+FILENAME = "products.txt"                                                       #File that must have an absolute path or be in the same directory as the program
+
+def get_products():                                                             #Define the get_products function
+    products = []                                                               #Initialize a list named products
+    with open(FILENAME, newline="") as file:                                    #While the file is open
+        reader = csv.reader(file)                                               #Constant that stores the filename
+        for row in reader:                                                      #Iterate through the rows
+           product = Product(row[0], float(row[1]), int(row[2]))                #Store the value of the row in a product object
+           products.append(product)                                             #Stores the object in the list of product objects
+    return products
