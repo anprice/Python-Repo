@@ -1,0 +1,99 @@
+#!usr/bin/python3
+
+import db
+from business import Product, LineItem, Cart
+
+def show_title():                                                                   #show_title function
+    print("The Shopping Cart Program")
+    print()
+    
+def show_menu():                                                                    #show_menu function
+    print("COMMAND MENU")
+    print("cart - Show the cart")
+    print("add - Add an item to the cart")
+    print("del - Delete an item from cart")
+    print("exit - Exit program")
+    print()
+    
+def show_products(products):                                                        #show_products function that accepts products as an argument
+    print("PRODUCT")
+    line_format1 = "{:<5s} {:<25s} {:>10s} {:>10s} {:>12s}"                         #Formatting1 of the output
+    line_format2 = "{:<5d} {:<25s} {:>10.2f} {:>10s} {:>12.2f}"                     #Formatting2 of the output
+    print(line_format1.format("Item", "Name", "Price",                              #Print line utilizing format1
+                              "Discount", "Your Price"))
+    for i in range(len(products)):                                                  #for loop to iterate through the list and display the products
+        product = products[i]                                                       #Store the value of current index into product constant 
+        print(line_format2.format(i+1,                                              #Display the values of the product object utilizing format2
+              product.name,
+              product.price,
+              "%" + str(product.discountPercent),
+              product.getDiscountPrice()))
+    print()
+    
+def show_cart(cart):                                                                #show_cart function that accepts cart as an argument
+    if cart.getItemCount == 0:                                                      #If cart is empty, print below message
+        print("There are no items in your cart.\n") 
+    else:                                                                           #Else statement
+        line_format1 = "{:<5s} {:<25s} {:>12s} {:>10s} {:>10s}"
+        line_format2 = "{:<5d} {:<25s} {:>12.2f} {:>10d} {:>10.2f}"
+        print(line_format1.format("Item", "Name", "Your Price",
+                                  "Quantity", "Total"))
+        i = 0                                                                       #Initialize i for iteration statement 
+        for item in cart:                                                           #Iterate through the items in the cart and display them with format2
+            print(line_format2.format(i+1,
+                  item.product.name,
+                  item.product.getDiscountPrice(),
+                  item.quantity,
+                  item.getTotal()))
+            i += 1
+        print("{:>66.2f}".format(cart.getTotal()))                                  #Call the getTotal function from cart class
+        print()
+        
+def add_item(cart, products):                                                       #add_item function that accepts cart and products as an argument
+    number = int(input("Item number: "))                                            #Prompt user for Item number and store it in number constant
+    quantity = int(input("Quantity: "))                                             #Prompt user for quantity and store it in quantity constant
+    if number < 1 or number > len(products):                                        #Print message if user enters 0 or a number greater than the number of entrie in products
+        print("No product has that number.\n")
+    else:                                                                           #Else
+        product = products[number-1]                                                #Store the value of the index = to number entered by user in product constant
+        item = LineItem(product, quantity)                                          #Create a new object of LineItem passing product and quantity 
+        cart.addItem(item)                                                          #Call the addItem function from cart and pass item to it
+        print("Item " + str(cart.getItemCount()) + " was added.\n")                 #Print line and return how many items are in the cart
+        
+def remove_item(cart):                                                              #Remove_item function that removes item from the cart
+    number = int(input("Item number: "))                                            #Prompt user for item to remove from cart
+    if number < 1 or number > cart.getItemCount():                                  #If number is less than 0 or if the number is greater than the number of items in cart then print below message
+        print("The cart does not contain an item " + 
+              "with that number.\n")
+    else:                                                                           #Else
+        cart.removeItem(number - 1)                                                 #Call removeItem from cart class to remove the user entered number 
+        print("Item " + str(number) + " was deleted.\n")                            #Print that the users selected item was deleted
+        
+def main():
+    show_title()                                                                    #Call show_title function
+    show_menu()                                                                     #Call show_menu function
+    
+    products = db.get_products()                                                    #Call the get_products method from db and store returned value in constant
+    show_products(products)                                                         #Call show_products function and pass the products constant 
+    
+    cart = Cart()                                                                   #Create a new object cart from Cart
+    
+    while True:                                                                     #Begin loop for the program
+        command = input("Command: ")
+        if command == "cart":                                                       #If user inputs cart, call show_cart function and pass the cart object
+            show_cart(cart)
+        elif command == "add":                                                      #If user inputs add, call the add_item function and pass cart, and products objects to them
+            add_item(cart, products)
+        elif command == "del":                                                      #If user inputs del, call the remove_item function and pass cart object to it
+            remove_item(cart)
+        elif command == "exit":                                                     #If user inputs exit, break loop and end program
+            print("Bye!")
+            break
+        else:                                                                       #Anything else is not a valid entry
+            print("Not a valid command.  Please try again.\n")
+            
+if __name__ == "__main__":
+    main()
+            
+
+
