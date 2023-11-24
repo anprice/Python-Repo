@@ -1,0 +1,51 @@
+class Product:                                                                          #Create product class
+    def __init__(self, name="", price=0.0, discountPercent=0):                          #Initialize the name, price, and discountPercent of a product object
+        self.name = name
+        self.price = price
+        self.discountPercent = discountPercent
+        
+    def getDiscountAmount(self):                                                        #Return discount amount
+        return round(self.price * self.discountPercent / 100, 2)
+        
+    def getDiscountPrice(self):                                                         #Return Actual discount price by calling the getDiscountAmount method
+        return round(self.price - self.getDiscountAmount(), 2)
+    
+    def getDescription(self):                                                           #Return description
+        return self.name
+    
+class LineItem:                                                                         #Create LineItem class
+    def __init__(self, product=None, quantity=1):                                       #Initialize the product and quantity of a lineitem object
+        self.product = product
+        self.quantity = quantity
+
+    def getTotal(self):                                                                 #Return the total accounting for the getDiscountPrice method
+        return self.product.getDiscountPrice() * self.quantity 
+
+class Cart:                                                                             #Create Cart class
+    def __init__(self):                                                                 #Initialize a lineItem list
+        self.__lineItems = []
+        
+    def addItem(self, item):                                                            #addItem function to add item to the cart
+        self.__lineItems.append(item)
+        
+    def removeItem(self, index):                                                        #removeItem to remove an item from the list (removes the index)
+        self.__lineItem.pop(index)
+        
+    def getTotal(self):                                                                 #getTotal and initialize it to 0 
+        total = 0.0
+        for item in self.__lineItems:                                                   #Iterate through the cart and add items to get tht total by calling the getTotal function
+            total += item.getTotal()
+        return total
+    
+    def getItemCount(self):                                                             #Return the item count
+        return len(self.__lineItems)
+    
+    def __iter__(self):                                                                 #Self defined iteration method for the Cart object
+        self.__index = -1
+        
+    def __next__(self):                                                                 #Self defined next method for the Cart object
+        if self.__index == len(self.__lineItems)-1:                                     #Starts iteration at index 0
+            raise StopIteration                                                         #Stop iteration once it gets to the end
+        self.__index += 1                                                               #Go to the next item in the cart
+        lineItem = self.__lineItems[self.__index]
+        return lineItem
