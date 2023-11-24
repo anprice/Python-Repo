@@ -1,0 +1,16 @@
+#!usr/bin/python3
+
+#This code is for testing the database and business layers by choosing the 2nd item in the csv list
+
+import db                                                   #Importing the db file
+from business import Product, LineItem, Cart                #Import the classes from the business file
+
+products = db.get_products()                                #call the get_products from the db file and store it in products constant
+product = products[1]                                       #Setting the value in index 1 to product constant        
+lineItem = LineItem(product, 1)                             #Creating a new LineItem obeject called lineItem
+cart = Cart()                                               #Creating a new Cart object cart 
+cart.addItem(lineItem)                                      #Calling the addItem method of Cart object to add new item to the cart
+print("Product:  ", product.name)
+print("Price:    ", product.getDiscountPrice())
+print("Quantity: ", lineItem.quantity)
+print("Total:    ", cart.getTotal())    
