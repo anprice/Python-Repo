@@ -1,0 +1,12 @@
+class Movie:                                                                            #Define Movie clasa and initialize its variables
+    def __init__(self, id=0, name=None, year=0, minutes=0, category=None):
+        self.id = id
+        self.name = name
+        self.year = year
+        self.minutes = minutes
+        self.category = category
+        
+class Category:                                                                         #Define the category class and initialize its variables
+    def __init__(self, id=0, name=None):
+        self.id = id
+        self.name = name
