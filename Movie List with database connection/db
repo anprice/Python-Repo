@@ -1,0 +1,100 @@
+#!usr/bin/python3
+
+import sys
+import os
+import sqlite3
+from contextlib import closing                                                                  #Import closing() function
+
+from objects import Category
+from objects import Movie
+
+conn = None                                                                                     #Define global connection object to be used
+
+def connect():                                                                                  #Define connection function
+    global conn                                                                                 #Defines global variable since it is going to be modified
+    if not conn:                                                                                #Needed because the DB file is not listed in the same directory as the program.  
+        if sys.platform == "win32":                                                             #If windows use the below path
+            DB_FILE = "/path/to/file/_db/movies.sqlite"
+        else:                                                                                   #If not windows use below path
+            HOME = os.environ["HOME"]
+            DB_FILE = HOME + "/path/to/file/_db/movies.sqlite"
+        conn = sqlite3.connection(DB_FILE)                                                      #connection object is created
+        conn.row_factory = sqlite3.Row                                                          #row_factory attribute of conn is set to sqlite3.row to allow use of column names
+        
+def close():                                                                                    #Define close connection function
+    if conn:                                                                                    #If there is a connection, call the close method of conn object
+        conn.close()
+        
+def make_category(row):                                                                         #Define make_category function and pass row as an argument to return categoryID and categoryName
+    return Category(row["categoryID"], row["categoryName"])
+
+def make_movie(row):                                                                            #Define make_movie function and pass row as an argument to return MovieID, name, year, minutes.  Call make_category function and pass row
+    return Movie(row["movieID"], row["name"], row["year"], row["minutes"],
+                 make_category(row))
+
+def get_categories():                                                                           #Define get_categories function
+    query = ''' SELECT categoryID, name as categoryName FROM Category'''                        #SQL statement to get categoryID and name as alias categoryName and stores in query constant
+    with closing(conn.cursor()) as c:                                                           #Automatically close the cursor upon close after query has been ran
+        c.execute(query)                                                                        #Execute the query
+        results = c.fetchall()                                                                  #Returns a list containing all of the rows in the result set and stores it in a constant
+        
+    categories = []                                                                             #Initialize a categories list
+    for row in results:                                                                         #Start for loop to iterate through the rows stored in results
+        categories.append(make_category(row))                                                   #Append current row in current index 
+    return categories                                                                           #Return categories list
+
+def get_category(category_id):                                                                  #Define get_category function accepting category_id as argument
+    query = '''SELECT categoryID, name AS categoryName FROM Category WHERE categoryID = ?'''    #SQL statement to get categoryID and name as alias categoryName with contraints of categoryID
+    with closing(conn.cursor()) as c:                                                           #Automatically close the cursor upon close after query has been ran
+        c.execute(query, (category_id,))                                                        #Execute the query and category_id replaces the ? in the query
+        row = c.fetchone()                                                                      #Returns row and stores it in row constant
+        
+    category = make_category(row)                                                               #Store categoryID and categoryName in category constant
+    return category                                                                             
+
+def get_movies_by_category(category_id):                                                    
+    query = '''SELECT movieID, Movie.name, year, minutes,
+                   Movie.categoryID as categoryID,
+                   Category.name as categoryName
+               FROM Movie JOIN Category
+                   ON Movie.categoryID = Category.categoryID
+               WHERE Movie.categoryID = ?'''
+    with closing(conn.cursor()) as c:
+        c.execute(query, (category_id,))
+        results = c.fetchall()
+     
+    movies = []
+    for row in results:
+        movies.append(make_movie(row))
+    return movies
+
+def get_movies_by_year(year):
+    query = '''SELECT movieID, Movie.name, year, minutes,
+                      Movie.categoryID as categoryID,
+                      Category.name as categoryName
+               FROM Movie JOIN Category
+                      ON Movie.categoryID = Category.categoryID
+               WHERE year = ?'''
+    with closing(conn.cursor()) as c:
+        c.execute(query, (year,))
+        results = c.fetchall()
+       
+    movies = []
+    for row in results:
+        movies.append(make_movie(row))
+    return movies
+
+def add_movie(movie):
+    sql = '''INSERT INTO Movie (categoryID, name, year, minutes)
+             VALUES (?, ?, ?, ?)'''
+    with closing(conn.cursor()) as c:
+        c.execute(sql, (movie.category.id, movie.name, movie.year, movie.minutes))
+        conn.commit()
+        
+def delete_movie(movie_id):
+    sql = '''DELETE FROM Movie WHERE movieID = ?'''
+    with closing(conn.cursor()) as c:
+        c.execute(sql, (movie_id,))
+        conn.commit()
+        
+
